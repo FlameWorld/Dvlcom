@@ -1372,9 +1372,58 @@ h2 {
   z-index: 9998 !important;
 }
 
-.slides-app,
-.slide-indicators,
-.site-footer {
+/* ===== RGB FOOTER ===== */
+
+.site-footer{
+  position: fixed !important;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999 !important;
+
+  padding: 2px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* animated border */
+.footer-rgb{
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    90deg,
+    #00e5ff,
+    #4d7cff,
+    #b400ff,
+    #ff008c,
+    #00e5ff
+  );
+
+  background-size: 300% 100%;
+  animation: footerRgbMove 6s linear infinite;
+}
+
+/* inner content */
+.footer-inner{
   position: relative;
-  z-index: 20;
+  z-index: 1;
+
+  padding: 10px 18px;
+  border-radius: 18px;
+
+  font-size: 0.9rem;
+  color: #dff3ff;
+
+  background: rgba(8, 12, 24, 0.88);
+  backdrop-filter: blur(10px);
+
+  text-align: center;
+}
+
+/* animation */
+@keyframes footerRgbMove{
+  0%{background-position:0% 50%;}
+  100%{background-position:300% 50%;}
 }
