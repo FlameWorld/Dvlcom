@@ -115,24 +115,33 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  if (window.particlesJS) {
+  const isMobileDevice = window.innerWidth <= 900;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const lowPowerDevice = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (navigator.deviceMemory && navigator.deviceMemory <= 4);
+  const performanceMode = isMobileDevice || prefersReducedMotion || lowPowerDevice;
+
+  if (performanceMode) {
+    document.body.classList.add("performance-mode");
+  }
+
+  if (window.particlesJS && !prefersReducedMotion) {
     particlesJS("particles-js", {
       particles: {
-        number: { value: 75, density: { enable: true, value_area: 900 } },
+        number: { value: performanceMode ? 22 : 58, density: { enable: true, value_area: performanceMode ? 1200 : 900 } },
         color: { value: ["#5eeaff", "#ff51be", "#8a5bff", "#ffffff"] },
-        shape: { type: ["circle", "triangle"] },
-        opacity: { value: 0.45, random: true },
-        size: { value: 3.5, random: true },
+        shape: { type: ["circle"] },
+        opacity: { value: performanceMode ? 0.28 : 0.4, random: true },
+        size: { value: performanceMode ? 2.2 : 3.2, random: true },
         line_linked: {
-          enable: true,
+          enable: false,
           distance: 140,
           color: "#5eeaff",
-          opacity: 0.2,
+          opacity: 0.12,
           width: 1
         },
         move: {
           enable: true,
-          speed: 1.6,
+          speed: performanceMode ? 0.7 : 1.4,
           direction: "none",
           random: true,
           straight: false,
@@ -143,16 +152,16 @@ document.addEventListener("DOMContentLoaded", function () {
       interactivity: {
         detect_on: "canvas",
         events: {
-          onhover: { enable: true, mode: "grab" },
-          onclick: { enable: true, mode: "push" },
+          onhover: { enable: !performanceMode, mode: "grab" },
+          onclick: { enable: !performanceMode, mode: "push" },
           resize: true
         },
         modes: {
           grab: { distance: 180, line_linked: { opacity: 0.35 } },
-          push: { particles_nb: 4 }
+          push: { particles_nb: 3 }
         }
       },
-      retina_detect: true
+      retina_detect: !performanceMode
     });
   }
 
@@ -235,7 +244,7 @@ window.addEventListener("DOMContentLoaded", function () {
         if (tiktokFollowers) tiktokFollowers.textContent = "Open Now";
         if (tiktokStatus) tiktokStatus.textContent = "Profile Live";
         if (tiktokBio) {
-          tiktokBio.textContent = "Tap the button to open the TikTok profile directly. This card is styled like the Discord cards and ready for your social section.";
+          tiktokBio.textContent = "Clean DVL TikTok spotlight with a gaming-style visual background and a lightweight profile card for smooth browsing.";
         }
       }
     } catch (e) {}
@@ -248,15 +257,6 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-
-window.addEventListener("DOMContentLoaded", function () {
-  const tiktokAvatar = document.getElementById("tiktokAvatar");
-  if (tiktokAvatar) {
-    tiktokAvatar.addEventListener("error", function () {
-      tiktokAvatar.src = "DvlProfile.png";
-    });
-  }
-});
 
 
 async function loadDiscordInviteCard(inviteCode, nameId, countId, iconId) {
